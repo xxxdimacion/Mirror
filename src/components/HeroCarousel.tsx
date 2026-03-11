@@ -3,15 +3,15 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const images = [
-  '/hero.jpg?v=2',
-  '/hero2.png?v=2',
-  '/hero3.png?v=2',
-  '/hero4.webp?v=2',
-  '/hero5.webp?v=2',
-  '/hero6.webp?v=2',
-  '/hero7.webp?v=2',
-  '/hero8.webp?v=2',
-  '/hero9.webp?v=2'
+  'https://i.ibb.co/RGwLgSFs/hero.jpg',
+  'https://i.ibb.co/HpYQPq36/hero2.png',
+  'https://i.ibb.co/TxcJZWn7/hero3.png',
+  'https://i.ibb.co/LdVzfGyF/hero4.webp',
+  'https://i.ibb.co/mVRBNn6X/hero5.webp',
+  'https://i.ibb.co/q3ymsg27/hero6.webp',
+  'https://i.ibb.co/DgmYrj3m/hero7.webp',
+  'https://i.ibb.co/fdgLKM8w/hero8.webp',
+  'https://i.ibb.co/9HXyVK6k/hero9.webp'
 ];
 
 export default function HeroCarousel() {

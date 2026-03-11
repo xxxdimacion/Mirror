@@ -150,7 +150,7 @@ export default function Checkout({ onBack }: { onBack: () => void }) {
               
               <div className="flex items-center gap-4 mb-6 pb-6 border-b border-stone-100">
                 <div className="w-16 h-16 bg-stone-100 rounded-xl overflow-hidden shrink-0">
-                  <img src="/hero.jpg?v=2" alt="Зеркало" className="w-full h-full object-cover" />
+                  <img src="https://i.ibb.co/RGwLgSFs/hero.jpg" alt="Зеркало" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <div className="font-medium text-stone-900">Умное зеркало</div>
