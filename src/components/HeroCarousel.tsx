@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const images = [
-  '/hero.webp',
-  '/hero2.webp',
-  '/hero3.webp',
+  '/hero.jpg',
+  '/hero2.png',
+  '/hero3.png',
   '/hero4.webp',
   '/hero5.webp',
   '/hero6.webp',
