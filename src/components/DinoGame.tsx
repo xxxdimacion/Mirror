@@ -23,8 +23,8 @@ export default function DinoGame({ onWin }: DinoGameProps) {
     let dinoY = 100;
     let velocityY = 0;
     const gravity = 0.6;
-    const jumpStrength = -10;
-    const groundY = 120;
+    const jumpStrength = -11;
+    const groundLine = 130;
 
     let obstacles: { x: number; passed: boolean }[] = [];
     let frameCount = 0;
@@ -53,8 +53,8 @@ export default function DinoGame({ onWin }: DinoGameProps) {
 
       // Draw ground
       ctx.beginPath();
-      ctx.moveTo(0, groundY + 20);
-      ctx.lineTo(canvas.width, groundY + 20);
+      ctx.moveTo(0, groundLine + 2);
+      ctx.lineTo(canvas.width, groundLine + 2);
       ctx.strokeStyle = '#d6d3d1'; // stone-300
       ctx.lineWidth = 2;
       ctx.stroke();
@@ -63,42 +63,75 @@ export default function DinoGame({ onWin }: DinoGameProps) {
       velocityY += gravity;
       dinoY += velocityY;
 
-      if (dinoY >= groundY) {
-        dinoY = groundY;
+      if (dinoY >= groundLine - 30) {
+        dinoY = groundLine - 30;
         isJumping = false;
         velocityY = 0;
       }
 
       // Draw Dino
-      ctx.fillStyle = '#44403c'; // stone-700
-      ctx.fillRect(50, dinoY, 20, 20);
+      ctx.fillStyle = '#44403c';
+      // Head & Snout
+      ctx.fillRect(50 + 12, dinoY, 14, 10);
+      ctx.fillRect(50 + 16, dinoY + 4, 14, 6);
+      // Eye
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(50 + 16, dinoY + 2, 4, 4);
+      ctx.fillStyle = '#44403c';
+      // Body
+      ctx.fillRect(50 + 6, dinoY + 10, 16, 14);
+      // Tail
+      ctx.fillRect(50, dinoY + 12, 6, 8);
+      ctx.fillRect(50 - 4, dinoY + 10, 4, 6);
+      // Tiny arms
+      ctx.fillRect(50 + 22, dinoY + 14, 4, 2);
+      // Legs (animated)
+      if (isJumping || Math.floor(frameCount / 6) % 2 === 0) {
+        ctx.fillRect(50 + 8, dinoY + 24, 4, 6);
+        ctx.fillRect(50 + 16, dinoY + 24, 4, 4);
+      } else {
+        ctx.fillRect(50 + 8, dinoY + 24, 4, 4);
+        ctx.fillRect(50 + 16, dinoY + 24, 4, 6);
+      }
 
       // Obstacles
       if (frameCount >= nextSpawn) {
         obstacles.push({ x: canvas.width, passed: false });
-        nextSpawn = frameCount + 60 + Math.random() * 60; // Random spawn interval
+        nextSpawn = frameCount + 70 + Math.random() * 100; // Random spawn interval
       }
 
       for (let i = obstacles.length - 1; i >= 0; i--) {
         let obs = obstacles[i];
         obs.x -= gameSpeed;
 
-        // Draw obstacle
-        ctx.fillStyle = '#78716c'; // stone-500
-        ctx.fillRect(obs.x, groundY, 15, 20);
+        // Draw Mirror Obstacle
+        // Frame
+        ctx.fillStyle = '#d6d3d1'; // stone-300
+        ctx.beginPath();
+        ctx.ellipse(obs.x + 10, groundLine - 20, 10, 16, 0, 0, Math.PI * 2);
+        ctx.fill();
+        // Glass
+        ctx.fillStyle = '#bae6fd'; // sky-200
+        ctx.beginPath();
+        ctx.ellipse(obs.x + 10, groundLine - 20, 7, 13, 0, 0, Math.PI * 2);
+        ctx.fill();
+        // Stand
+        ctx.fillStyle = '#a8a29e'; // stone-400
+        ctx.fillRect(obs.x + 8, groundLine - 4, 4, 4);
+        ctx.fillRect(obs.x + 2, groundLine, 16, 2);
 
         // Collision
         if (
-          obs.x < 50 + 20 &&
-          obs.x + 15 > 50 &&
-          dinoY + 20 > groundY
+          obs.x < 75 &&
+          obs.x + 18 > 50 &&
+          dinoY + 28 > groundLine - 34
         ) {
           setGameState('gameover');
           return; // Stop game loop
         }
 
         // Score
-        if (obs.x + 15 < 50 && !obs.passed) {
+        if (obs.x + 20 < 50 && !obs.passed) {
           obs.passed = true;
           currentScore++;
           setScore(currentScore);
@@ -126,9 +159,9 @@ export default function DinoGame({ onWin }: DinoGameProps) {
       gameSpeed += 0.002; // Gradually increase speed
 
       // Draw Score
-      ctx.fillStyle = '#57534e';
-      ctx.font = '14px sans-serif';
-      ctx.fillText(`Камни: ${currentScore}/20`, canvas.width - 100, 30);
+      ctx.fillStyle = '#44403c';
+      ctx.font = 'bold 22px sans-serif';
+      ctx.fillText(`Зеркала: ${currentScore}/20`, canvas.width - 170, 40);
 
       animationFrameId = requestAnimationFrame(loop);
     };
